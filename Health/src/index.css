@@ -1,0 +1,382 @@
+/* 
+
+const fuzzy = require('fuzzy');
+
+const FruitWeight = new fuzzy.Antecedent('FruitWeight', [79, 108]);
+const TSS = new fuzzy.Antecedent('TSS', [1, 24]);
+const PH = new fuzzy.Antecedent('PH', [3.8, 5.5]);
+const DietaryFiber = new fuzzy.Antecedent('DietaryFiber', [2, 2.7]);
+const TotalFat = new fuzzy.Antecedent('TotalFat', [35, 51]);
+const Firmness = new fuzzy.Antecedent('Firmness', [20, 45]);
+const VitaminC = new fuzzy.Antecedent('VitaminC', [19, 25]);
+const VitaminA = new fuzzy.Antecedent('VitaminA', [39, 52]);
+const VitaminD = new fuzzy.Antecedent('VitaminD', [19, 30]);
+const Sodium = new fuzzy.Antecedent('Sodium', [7, 11.9]);
+const Iron = new fuzzy.Antecedent('Iron', [1, 9.9]);
+const Calcium = new fuzzy.Antecedent('Calcium', [3, 10.9]);
+const Potassium = new fuzzy.Antecedent('Potassium', [300, 376]);
+const Ethylene = new fuzzy.Antecedent('Ethylene', [120, 592]);
+const RipeningStage = new fuzzy.Consequent('RipeningStage', [1, 119]);
+
+
+FruitWeight.addTriangular('VVLFW', [79, 79, 81]);
+FruitWeight.addTriangular('VLFW', [81, 83, 85]);
+FruitWeight.addTriangular('LFW', [83, 85, 90]);
+FruitWeight.addTriangular('MFW', [85, 90, 95]);
+FruitWeight.addTriangular('SHFW', [90, 95, 100]);
+FruitWeight.addTriangular('HFW', [95, 100, 105]);
+FruitWeight.addTriangular('VHFW', [100, 105, 108]);
+FruitWeight.addTriangular('VVHFW', [105, 108, 108]);
+
+
+
+TSS.addTriangular('VVLTSS', [1, 1, 3]);
+TSS.addTriangular('VLTSS', [1, 3, 5]);
+TSS.addTriangular('LTSS', [3, 5, 7]);
+TSS.addTriangular('MTSS', [5, 7, 11]);
+TSS.addTriangular('SHTSS', [7, 11, 15]);
+TSS.addTriangular('HTSS', [11, 15, 19]);
+TSS.addTriangular('VHTSS', [15, 19, 24]);
+TSS.addTriangular('VVHTSS', [19, 24, 24]);
+
+
+
+PH.addTriangular('VVLPH', [3.8, 3.8, 4.0]);
+PH.addTriangular('VLPH', [3.8, 4.0, 4.2]);
+PH.addTriangular('LPH', [4.0, 4.2, 4.4]);
+PH.addTriangular('MPH', [4.2, 4.4, 4.6]);
+PH.addTriangular('SHPH', [4.4, 4.6, 4.9]);
+PH.addTriangular('HPH', [4.6, 4.9, 5.1]);
+PH.addTriangular('VHPH', [4.9, 5.1, 5.4]);
+PH.addTriangular('VVHPH', [5.1, 5.4, 5.4]);
+
+
+
+DietaryFiber.addTriangular('VVLDF', [2, 2, 2.15]);
+DietaryFiber.addTriangular('VLDF', [2, 2.15, 2.20]);
+DietaryFiber.addTriangular('LDF', [2.15, 2.20, 2.30]);
+DietaryFiber.addTriangular('MDF', [2.20, 2.30, 2.40]);
+DietaryFiber.addTriangular('SHDF', [2.30, 2.40, 2.45]);
+DietaryFiber.addTriangular('HDF', [2.30, 2.40, 2.50]);
+DietaryFiber.addTriangular('VHDF', [2.40, 2.50, 2.60]);
+DietaryFiber.addTriangular('VVHDF', [2.50, 2.60, 2.60]);
+
+
+
+TotalFat.addTriangular('VVLTF', [35, 35, 36]);
+TotalFat.addTriangular('VLTF', [35, 36, 39]);
+TotalFat.addTriangular('LTF', [36, 39, 41]);
+TotalFat.addTriangular('MTF', [39, 41, 43]);
+TotalFat.addTriangular('SHTF', [41, 43, 45]);
+TotalFat.addTriangular('HTF', [41, 43, 47]);
+TotalFat.addTriangular('VHTF', [43, 47, 51]);
+TotalFat.addTriangular('VVHTF', [47, 51, 51]);
+
+
+
+
+Firmness.addTriangular('VVLFr', [20, 20, 25]);
+Firmness.addTriangular('VLFr', [20, 25, 27]);
+Firmness.addTriangular('LFr', [25, 27, 31]);
+Firmness.addTriangular('MFr', [27, 31, 35]);
+Firmness.addTriangular('SHFr', [31, 35, 39]);
+Firmness.addTriangular('HFr', [35, 39, 42]);
+Firmness.addTriangular('VHFr', [39, 42, 46]);
+Firmness.addTriangular('VVHFr', [42, 46, 46]);
+
+
+VitaminC.addTriangular('VVLVC', [19, 19, 21]);
+VitaminC.addTriangular('VLVC', [19, 21, 21.5]);
+VitaminC.addTriangular('LVC', [21, 21.5, 22]);
+VitaminC.addTriangular('MVC', [21.5, 22, 23]);
+VitaminC.addTriangular('SHVC', [22, 23, 23.5]);
+VitaminC.addTriangular('HVC', [23, 23.5, 24]);
+VitaminC.addTriangular('VHVC', [23.5, 24, 25]);
+VitaminC.addTriangular('VVHVC', [24, 25, 25]);
+
+
+VitaminA.addTriangular('VVLVA', [39, 39, 40]);
+VitaminA.addTriangular('VLVA', [39, 40, 41]);
+VitaminA.addTriangular('LVA', [40, 41, 43]);
+VitaminA.addTriangular('MVA', [41, 43, 45]);
+VitaminA.addTriangular('SHVA', [43, 45, 46]);
+VitaminA.addTriangular('HVA', [45, 46, 47]);
+VitaminA.addTriangular('VHVA', [46, 47, 52]);
+VitaminA.addTriangular('VVHVA', [47, 52, 52]);
+
+
+
+VitaminD.addTriangular('VVLVD', [19, 19, 20]);
+VitaminD.addTriangular('VLVD', [19, 20, 22]);
+VitaminD.addTriangular('LVD', [20, 22, 25]);
+VitaminD.addTriangular('MVD', [22, 25, 26]);
+VitaminD.addTriangular('SHVD', [25, 26, 27]);
+VitaminD.addTriangular('HVD', [26, 27, 29]);
+VitaminD.addTriangular('VHVD', [27, 29, 31]);
+VitaminD.addTriangular('VVHVD', [29, 31, 31]);
+
+
+
+
+Sodium.addTriangular('VVLS', [7, 8, 8.25]);
+Sodium.addTriangular('VLS', [8, 8.25, 8.5]);
+Sodium.addTriangular('LS', [8.25, 8.5, 9]);
+Sodium.addTriangular('MS', [8.5, 9, 9.5]);
+Sodium.addTriangular('SHS', [9, 9.5, 9.7]);
+Sodium.addTriangular('HS', [9.5, 9.7, 10.25]);
+Sodium.addTriangular('VHS', [9.7, 10.25, 11]);
+Sodium.addTriangular('VVHS', [10.25, 11, 11]);
+
+
+
+Iron.addTriangular('VVLI', [1, 2, 2.5]);
+Iron.addTriangular('VLI', [2, 2.5, 3]);
+Iron.addTriangular('LI', [2.5, 3, 4]);
+Iron.addTriangular('MI', [3, 4, 5.5]);
+Iron.addTriangular('SHI', [4, 5.5, 5.7]);
+Iron.addTriangular('HI', [5.5, 5.7, 6]);
+Iron.addTriangular('VHI', [5.7, 6, 8.5]);
+Iron.addTriangular('VVHI', [6, 8.5, 8.5]);
+
+
+
+
+Calcium.addTriangular('VVLCA', [3, 3, 4.5]);
+Calcium.addTriangular('VLCA', [3, 4.5, 5]);
+Calcium.addTriangular('LCA', [4.5, 5, 6]);
+Calcium.addTriangular('MCA', [5, 6, 7]);
+Calcium.addTriangular('SHCA', [6, 7, 8]);
+Calcium.addTriangular('HCA', [7, 8, 9.75]);
+Calcium.addTriangular('VHCA', [8, 9.75, 11]);
+Calcium.addTriangular('VVHCA', [9.75, 11, 11]);
+
+
+Potassium.addTriangular('VVLP', [300, 300, 300.5]);
+Potassium.addTriangular('VLP', [300, 300.5, 301]);
+Potassium.addTriangular('LP', [300.5, 301, 305]);
+Potassium.addTriangular('MP', [301, 305, 307]);
+Potassium.addTriangular('SHP', [305, 307, 315]);
+Potassium.addTriangular('HP', [307, 315, 325]);
+Potassium.addTriangular('VHP', [315, 325, 376]);
+Potassium.addTriangular('VVHP', [325, 376, 376]);
+
+
+
+Ethylene.addTriangular('VVLE', [120, 120, 160]);
+Ethylene.addTriangular('VLE', [120, 160, 200]);
+Ethylene.addTriangular('LE', [160, 200, 240]);
+Ethylene.addTriangular('ME', [200, 240, 350]);
+Ethylene.addTriangular('SHE', [240, 350, 420]);
+Ethylene.addTriangular('HE', [340, 420, 500]);
+Ethylene.addTriangular('VHE', [420, 500, 595]);
+Ethylene.addTriangular('VVHE', [500, 595, 595]);
+
+
+
+RipeningStage.addTriangular('NR', [0, 0, 30]);
+RipeningStage.addTriangular('UR', [0, 30, 40]);
+RipeningStage.addTriangular('JR', [30, 40, 50]);
+RipeningStage.addTriangular('PR', [40, 50, 65]);
+RipeningStage.addTriangular('LR', [50, 65, 90]);
+RipeningStage.addTriangular('FR', [75, 100, 105]);
+RipeningStage.addTriangular('OR', [100, 105, 110]);
+RipeningStage.addTriangular('OOR', [105, 120, 120]);
+
+
+const ctrl = require('fuzzy');
+
+const rule1 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['VVHFW'],
+    TSS['VVLTSS'],
+    PH['VVLPH'],
+    DietaryFiber['VVHDF'],
+    Firmness['VVHFr'],
+    TotalFat['VVLTF'],
+    VitaminC['VLVC'],
+    VitaminA['MVA'],
+    VitaminD['VLVD'],
+    Sodium['VVHS'],
+    Iron['VVLI'],
+    Calcium['VVLCA'],
+    Potassium['VVLP'],
+    Ethylene['VVLE']
+  ),
+  RipeningStage['NR']
+);
+
+
+
+const rule2 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['VHFW'],
+    TSS['VLTSS'],
+    PH['VLPH'],
+    DietaryFiber['VHDF'],
+    Firmness['VHFr'],
+    TotalFat['VLTF'],
+    VitaminC['MVC'],
+    VitaminA['HVA'],
+    VitaminD['VHVD'],
+    Sodium['VHS'],
+    Iron['VLI'],
+    Calcium['VLCA'],
+    Potassium['VLP'],
+    Ethylene['VLE']
+  ),
+  RipeningStage['UR']
+);
+
+
+const rule3 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['HFW'],
+    TSS['LTSS'],
+    PH['LPH'],
+    DietaryFiber['HDF'],
+    Firmness['HFr'],
+    TotalFat['LTF'],
+    VitaminC['MVC'],
+    VitaminA['MVA'],
+    VitaminD['MVD'],
+    Sodium['HS'],
+    Iron['LI'],
+    Calcium['LCA'],
+    Potassium['LP'],
+    Ethylene['ME']
+  ),
+  RipeningStage['JR']
+);
+
+
+const rule4 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['SHFW'],
+    TSS['MTSS'],
+    PH['MPH'],
+    DietaryFiber['SHDF'],
+    Firmness['SHFr'],
+    TotalFat['MTF'],
+    VitaminC['VVHVC'],
+    VitaminA['VVHVA'],
+    VitaminD['VHVD'],
+    Sodium['SHS'],
+    Iron['MI'],
+    Calcium['MCA'],
+    Potassium['MP'],
+    Ethylene['SHE']
+  ),
+  RipeningStage['PR']
+);
+
+
+const rule5 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['MFW'],
+    TSS['SHTSS'],
+    PH['SHPH'],
+    DietaryFiber['MDF'],
+    Firmness['MFr'],
+    TotalFat['SHTF'],
+    VitaminC['SHVC'],
+    VitaminA['SHVA'],
+    VitaminD['SHVD'],
+    Sodium['MS'],
+    Iron['SHI'],
+    Calcium['SHCA'],
+    Potassium['SHP'],
+    Ethylene['SHE']
+  ),
+  RipeningStage['LR']
+);
+
+
+const rule6 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['LFW'],
+    TSS['HTSS'],
+    PH['HPH'],
+    DietaryFiber['LDF'],
+    Firmness['LFr'],
+    TotalFat['HTF'],
+    VitaminC['VVLVC'],
+    VitaminA['VVLVA'],
+    VitaminD['VVLVD'],
+    Sodium['LS'],
+    Iron['HI'],
+    Calcium['HCA'],
+    Potassium['HP'],
+    Ethylene['HE']
+  ),
+  RipeningStage['FR']
+);
+
+
+const rule7 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['VLFW'],
+    TSS['VHTSS'],
+    PH['VHPH'],
+    DietaryFiber['VLDF'],
+    Firmness['VLFr'],
+    TotalFat['VHTF'],
+    VitaminC['HVC'],
+    VitaminA['VHVA'],
+    VitaminD['VHVD'],
+    Sodium['VLS'],
+    Iron['VHI'],
+    Calcium['VHCA'],
+    Potassium['VHP'],
+    Ethylene['VHE']
+  ),
+  RipeningStage['OR']
+);
+
+
+
+const rule8 = new ctrl.Rule(
+  ctrl.fuzzy.and(
+    FruitWeight['VVLFW'],
+    TSS['VVHTSS'],
+    PH['VVHPH'],
+    DietaryFiber['VVLDF'],
+    Firmness['VVLFr'],
+    TotalFat['VVHTF'],
+    VitaminC['HVC'],
+    VitaminA['VVHVA'],
+    VitaminD['VVHVD'],
+    Sodium['VVLS'],
+    Iron['VVHI'],
+    Calcium['VVHCA'],
+    Potassium['VVHP'],
+    Ethylene['VVHE']
+  ),
+  RipeningStage['OOR']
+);
+
+
+const tipping = new ctrl.ControlSystem([rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8]);
+
+const Tip = new ctrl.ControlSystemSimulation(tipping);
+
+Tip.input['FruitWeight'] = 100;
+Tip.input['TSS'] = 5;
+Tip.input['PH'] = 4.2;
+Tip.input['DietaryFiber'] = 2.45;
+Tip.input['TotalFat'] = 39;
+Tip.input['Firmness'] = 40;
+Tip.input['VitaminC'] = 21.5;
+Tip.input['VitaminA'] = 43;
+Tip.input['VitaminD'] = 23;
+Tip.input['Sodium'] = 10.25;
+Tip.input['Iron'] = 4;
+Tip.input['Calcium'] = 6;
+Tip.input['Potassium'] = 301;
+Tip.input['Ethylene'] = 217;
+
+
+Tip.compute() ;
+
+console.log("Ripening Stage:", Tip.output['RipeningStage']);
+
+ */

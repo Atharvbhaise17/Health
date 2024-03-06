@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "fuzzy.js": "^0.1.0",
+    "numpy": "^0.0.1",
+    "pyodide": "^0.25.0",
+    "python-shell": "^5.0.0"
+  }
+}
